@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_frontend/about_page.dart';
 import 'package:flutter_frontend/second_page.dart';
-import 'package:flutter/material.dart';
 
 import 'TenantSignUp.dart';
 
@@ -57,7 +57,8 @@ class MenuDrawer extends StatelessWidget {
             title: Text('Register REIT Fund Management Company'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => TenantSignUp()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TenantSignUp()));
             },
           )
         ],

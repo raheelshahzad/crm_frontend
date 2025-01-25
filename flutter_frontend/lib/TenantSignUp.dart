@@ -9,7 +9,7 @@ class TenantSignUp extends StatelessWidget {
   final TextEditingController _descriptionController = TextEditingController();
 
   Future<String> _submitForm() async {
-    final String apiUrl = 'https://your-backend-api.com/submit'; // Replace with your API URL
+    final String apiUrl = 'http://192.168.4.246:3001/tenants'; // Replace with your API URL
 
     try {
       final response = await http.post(
@@ -17,14 +17,19 @@ class TenantSignUp extends StatelessWidget {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': _nameController.text,
-          'email': _emailController.text,
+          'owner_email': _emailController.text,
           'description': _descriptionController.text,
         }),
       );
 
-      if (response.statusCode == 200) {
-        // Successfully submitted
-        return response.body;
+      // Consider all 2XX status codes as success
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        // Decode JSON
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        // Access a specific field from the JSON
+        // For example, if the JSON has a field named "message", we can do:
+        final String message = responseData['message'] ?? 'No message found.';
+        return message;
       } else {
         // Handle error
         return 'Failed to submit: ${response.statusCode}';
@@ -71,7 +76,7 @@ class TenantSignUp extends StatelessWidget {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
-                  } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$').hasMatch(value)) {
+                  } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}').hasMatch(value)) {
                     return 'Please enter a valid email address';
                   }
                   return null;
@@ -111,7 +116,3 @@ class TenantSignUp extends StatelessWidget {
     );
   }
 }
-
-void main() => runApp(MaterialApp(
-  home: TenantSignUp(),
-));
