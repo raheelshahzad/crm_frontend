@@ -2,6 +2,8 @@ import 'package:flutter_frontend/about_page.dart';
 import 'package:flutter_frontend/second_page.dart';
 import 'package:flutter/material.dart';
 
+import 'TenantSignUp.dart';
+
 class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,14 @@ class MenuDrawer extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => AboutPage()));
             },
           ),
+          ListTile(
+            leading: Icon(Icons.app_registration_rounded),
+            title: Text('Register REIT Fund Management Company'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TenantSignUp()));
+            },
+          )
         ],
       ),
     );
